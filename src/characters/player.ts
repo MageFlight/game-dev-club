@@ -1,4 +1,4 @@
-import { keyboardHandler } from "merlin-game-engine";
+import { keyboardHandler, log } from "merlin-game-engine";
 import { KinematicBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { PhysicsEngine } from "merlin-game-engine/dist/physicsEngine/physics";

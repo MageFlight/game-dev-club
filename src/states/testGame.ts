@@ -9,6 +9,7 @@ import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/te
 import { Utils } from "merlin-game-engine/dist/utils";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 import { Player } from "../characters/player";
+import { SquarePlayer } from "../characters/squarePlayer";
 
 export class TestGame extends GameState {
     private objectTree: GameObjectTree;
@@ -25,9 +26,13 @@ export class TestGame extends GameState {
       console.log("ground: ", ground);
   
       this.objectTree.addGameObjects([
-        new Player()
-          .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
-          .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
+        // new Player()
+        //   .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
+        //   .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
+        
+        new SquarePlayer(new Vector2(128, 128), "squarePlayer")
+            .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
+            .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
   
         new StaticBody(new Vector2(640, 600), new Vector2(192, 320), 0.8, "wall")
           .addChild(new AABB(Vector2.zero(), new Vector2(192, 320), true, "wallCollider"))
