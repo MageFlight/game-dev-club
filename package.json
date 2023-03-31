@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "serve": "webpack && webpack serve --open"
+    "serve": "webpack serve --open"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "merlin-game-engine": "^1.0.0"
   },
   "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.2",
     "webpack": "^5.76.3",

@@ -15,7 +15,7 @@ export class SquarePlayer extends KinematicBody {
 
     override update(dt: number): void {
         log("Update squarePlayer");
-        log("SquareVel: ", this.velocity);
+        log("Square Velocity: ", this.velocity);
         if (keyboardHandler.keyJustPressed("ArrowRight") && this.velocity.equals(Vector2.zero())) {
             this.velocity.x = this.speed;
         } else if (keyboardHandler.keyJustPressed("ArrowLeft") && this.velocity.equals(Vector2.zero())) {

@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -6,6 +7,11 @@ module.exports = {
     index: "./src/index.ts",
   },
   devtool: "source-map", // Change this in production to 'source-map'
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Game Dev Club Game"
+    }),
+  ],
   devServer: {
     static: "./dist",
   },
@@ -26,7 +32,8 @@ module.exports = {
     extensions: [".ts", ".js"],
   },
   output: {
-    filename: "index.js",
-    path: path.resolve(__dirname, "dist", "bundle"),
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    clean: true
   },
 };
