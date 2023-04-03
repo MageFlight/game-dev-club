@@ -26,9 +26,9 @@ export class TestGame extends GameState {
       console.log("ground: ", ground);
   
       this.objectTree.addGameObjects([
-        // new Player()
-        //   .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
-        //   .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
+        new Player()
+          .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
+          .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
         
         new SquarePlayer(new Vector2(128, 128), "squarePlayer")
             .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
