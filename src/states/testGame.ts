@@ -29,14 +29,14 @@ export class TestGame extends GameState {
     const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
     */
    
-    groundDimensions(size: Vector2): Promise<TiledTexture> {
+    createGroundTexture(size: Vector2): Promise<TiledTexture> {
       return TiledTexture.createFromPaths([RightNormalV3], size, new Vector2(64, 64), -1, true, true);
     }
 
     async createPlatform(x: number, y: number, length: number, width: number, friction: number, name: string, texture: string) {
       return new StaticBody(new Vector2(x, Utils.GAME_HEIGHT - y), new Vector2(length, width), friction, name)
         .addChild(new AABB(Vector2.zero(), new Vector2(length, width), true, name + "Collider"))
-        .addChild(new TextureRect(Vector2.zero(), new Vector2(length, width), await this.groundDimensions(new Vector2(length, width)), texture))
+        .addChild(new TextureRect(Vector2.zero(), new Vector2(length, width), await this.createGroundTexture(new Vector2(length, width)), texture))
     }
 
     async load() {
