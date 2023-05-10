@@ -10,45 +10,47 @@ import { Utils } from "merlin-game-engine/dist/utils";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
+import { log } from "merlin-game-engine";
+import { Level1 } from "../levels/level1";
 
 export class TestGame extends GameState {
-    private objectTree: GameObjectTree;
-    
-    constructor() {
-      super();
-      this.objectTree = new GameObjectTree(new PhysicsEngine());
-    }
+  private levels: GameObjectTree[] = [];
+  //controls level VVVVVV
+  private currentLevel: number = 1;
+  private physics: PhysicsEngine;
   
-    async load() {
-      const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
-      const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
-  
-      console.log("ground: ", ground);
-  
-      this.objectTree.addGameObjects([
-        new Player()
-          .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
-          .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
-        
-        new SquarePlayer(new Vector2(128, 128), "squarePlayer")
-            .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
-            .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
-  
-        new StaticBody(new Vector2(640, 600), new Vector2(192, 320), 0.8, "wall")
-          .addChild(new AABB(Vector2.zero(), new Vector2(192, 320), true, "wallCollider"))
-          .addChild(new ColorRect(Vector2.zero(), new Vector2(192, 320), "#ff0000", "wallTex")),
-  
-        new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0.8, "ground")
-          .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
-          .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture"))
-      ]);
-    }
-  
-    override update(dt: number) {
-      this.objectTree.update(dt);
-    }
-  
-    override draw() {
-      this.objectTree.draw();
-    }
+  constructor() {
+    super();
+    this.physics = new PhysicsEngine();
   }
+
+  async load() {
+    
+    const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
+
+    console.log("ground: ", ground);
+
+    
+
+    const level1 = new GameObjectTree(this.physics);
+    const idkWhatToName = new Level1();
+    level1.addGameObjects(
+      await idkWhatToName.getGameObjects()
+    );
+    this.levels.push(level1);
+  }
+
+  override update(dt: number) {
+    log("levelLength: ", this.levels.length, " CurrentLevel: ", this.currentLevel);
+    this.levels[this.currentLevel].update(dt);
+  }
+
+  override draw() {
+    this.levels[this.currentLevel].draw();
+  }
+}
+
+
+
+
+
