@@ -7,6 +7,7 @@ import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 import { Level1 } from "../levels/level1";
 import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
+import { keyboardHandler, log } from "merlin-game-engine";
 
 export class TestGame extends GameState {
   private levelData: Level[];
@@ -31,16 +32,30 @@ export class TestGame extends GameState {
   }
 
   async loadCurrentLevel() {
+    delete this.loadedLevel;
     this.loadedLevel = new GameObjectTree(this.physics);
     this.loadedLevel.addGameObjects(await this.levelData[this.currentLevel].getGameObjects());
   }
 
   changeLevel(newLevel: number) {
     this.currentLevel = newLevel;
+    alert("Loading Level " + this.currentLevel);
+
+    this.loadCurrentLevel();
+    this.physics.reset();
+
+
   }
 
   override update(dt: number) {
     this.loadedLevel?.update(dt);
+    log("LevelLength: ", this.levelData.length);
+    if (keyboardHandler.keyJustReleased("KeyC")) {
+      this.changeLevel(Math.min(this.currentLevel + 1, this.levelData.length - 1));
+    }
+    if (keyboardHandler.keyJustReleased("KeyX")) {
+      this.changeLevel(Math.max(this.currentLevel - 1, 0));
+    }
   }
 
   override draw() {
