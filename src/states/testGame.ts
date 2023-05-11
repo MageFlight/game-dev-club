@@ -1,20 +1,16 @@
-import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
 import { GameObjectTree } from "merlin-game-engine/dist/gameObjects/gameObjectTree";
-import { AABB, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { GameState } from "merlin-game-engine/dist/gameState";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { PhysicsEngine } from "merlin-game-engine/dist/physicsEngine/physics";
-import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
-import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
-import { Utils } from "merlin-game-engine/dist/utils";
+import { TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
-import { Player } from "../characters/player";
-import { SquarePlayer } from "../characters/squarePlayer";
-import { log } from "merlin-game-engine";
 import { Level1 } from "../levels/level1";
+import { Level0 } from "../levels/level0";
+import { Level } from "../levels/level";
 
 export class TestGame extends GameState {
-  private levels: GameObjectTree[] = [];
+  private levelData: Level[];
+  private loadedLevel?: GameObjectTree;
   //controls level VVVVVV
   private currentLevel: number = 1;
   private physics: PhysicsEngine;
@@ -22,6 +18,7 @@ export class TestGame extends GameState {
   constructor() {
     super();
     this.physics = new PhysicsEngine();
+    this.levelData = [new Level0(), new Level1()];
   }
 
   async load() {
@@ -30,23 +27,24 @@ export class TestGame extends GameState {
 
     console.log("ground: ", ground);
 
-    
+    await this.loadCurrentLevel();
+  }
 
-    const level1 = new GameObjectTree(this.physics);
-    const idkWhatToName = new Level1();
-    level1.addGameObjects(
-      await idkWhatToName.getGameObjects()
-    );
-    this.levels.push(level1);
+  async loadCurrentLevel() {
+    this.loadedLevel = new GameObjectTree(this.physics);
+    this.loadedLevel.addGameObjects(await this.levelData[this.currentLevel].getGameObjects());
+  }
+
+  changeLevel(newLevel: number) {
+    this.currentLevel = newLevel;
   }
 
   override update(dt: number) {
-    log("levelLength: ", this.levels.length, " CurrentLevel: ", this.currentLevel);
-    this.levels[this.currentLevel].update(dt);
+    this.loadedLevel?.update(dt);
   }
 
   override draw() {
-    this.levels[this.currentLevel].draw();
+    this.loadedLevel?.draw();
   }
 }
 
