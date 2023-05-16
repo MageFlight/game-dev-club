@@ -10,6 +10,12 @@ import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
 import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 
+// function wait(delay: number): Promise<void> {
+//     return new Promise<void>((resolve, reject) => {
+//         setTimeout(() => resolve(), delay);
+//     });
+// }
+
 export class Level0 implements Level {
     constructor() {}
 
@@ -17,7 +23,7 @@ export class Level0 implements Level {
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
         const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
         
-        return [
+        const gameObjects = [
             new Player()
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
@@ -30,5 +36,8 @@ export class Level0 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture"))
         ];
+
+
+        return gameObjects;
     }
 }

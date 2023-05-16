@@ -8,6 +8,7 @@ import { Level1 } from "../levels/level1";
 import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
 import { keyboardHandler, log } from "merlin-game-engine";
+import { showLoadingScreen, hideLoadingScreen } from "..";
 
 export class TestGame extends GameState {
   private levelData: Level[];
@@ -32,9 +33,12 @@ export class TestGame extends GameState {
   }
 
   async loadCurrentLevel() {
+    showLoadingScreen();
     delete this.loadedLevel;
     this.loadedLevel = new GameObjectTree(this.physics);
     this.loadedLevel.addGameObjects(await this.levelData[this.currentLevel].getGameObjects());
+    alert("loaded");
+    hideLoadingScreen();
   }
 
   changeLevel(newLevel: number) {
@@ -48,6 +52,7 @@ export class TestGame extends GameState {
   }
 
   override update(dt: number) {
+    log("update ", dt);
     this.loadedLevel?.update(dt);
     log("LevelLength: ", this.levelData.length);
     if (keyboardHandler.keyJustReleased("KeyC")) {

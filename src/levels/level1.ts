@@ -17,7 +17,7 @@ export class Level1 implements Level {
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
         const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
         
-        return [
+        const gameObjects = [
             new Player()
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
@@ -34,5 +34,7 @@ export class Level1 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture"))
         ];
+
+        return gameObjects;
     }
 }
