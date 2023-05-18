@@ -16,11 +16,13 @@ export class TestGame extends GameState {
   //controls level VVVVVV
   private currentLevel: number = 1;
   private physics: PhysicsEngine;
+  private loading: boolean;
   
   constructor() {
     super();
     this.physics = new PhysicsEngine();
     this.levelData = [new Level0(), new Level1()];
+    this.loading = false;
   }
 
   async load() {
@@ -37,13 +39,12 @@ export class TestGame extends GameState {
     delete this.loadedLevel;
     this.loadedLevel = new GameObjectTree(this.physics);
     this.loadedLevel.addGameObjects(await this.levelData[this.currentLevel].getGameObjects());
-    alert("loaded");
     hideLoadingScreen();
+    this.loading = false;
   }
 
   changeLevel(newLevel: number) {
     this.currentLevel = newLevel;
-    alert("Loading Level " + this.currentLevel);
 
     this.loadCurrentLevel();
     this.physics.reset();
@@ -55,10 +56,12 @@ export class TestGame extends GameState {
     log("update ", dt);
     this.loadedLevel?.update(dt);
     log("LevelLength: ", this.levelData.length);
-    if (keyboardHandler.keyJustReleased("KeyC")) {
+    if (keyboardHandler.keyJustReleased("KeyC") && !this.loading) {
+      this.loading = true
       this.changeLevel(Math.min(this.currentLevel + 1, this.levelData.length - 1));
     }
-    if (keyboardHandler.keyJustReleased("KeyX")) {
+    if (keyboardHandler.keyJustReleased("KeyX") && !this.loading) {
+      this.loading = true
       this.changeLevel(Math.max(this.currentLevel - 1, 0));
     }
   }

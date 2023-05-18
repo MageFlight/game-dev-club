@@ -10,11 +10,11 @@ import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
 import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 
-// function wait(delay: number): Promise<void> {
-//     return new Promise<void>((resolve, reject) => {
-//         setTimeout(() => resolve(), delay);
-//     });
-// }
+function wait(delay: number): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        setTimeout(() => resolve(), delay);
+    });
+}
 
 export class Level0 implements Level {
     constructor() {}
@@ -36,6 +36,7 @@ export class Level0 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture"))
         ];
+        await wait(10000);
 
 
         return gameObjects;

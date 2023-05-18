@@ -16,12 +16,10 @@ const loadingScreen = new LoadingScreen();
 let loadsFinished = 0;
 
 export function showLoadingScreen() {
-  alert("push")
   engine.pushState(loadingScreen);
 }
 
 export function hideLoadingScreen() {
-  alert("pop")
   engine.popState();
 }
 
