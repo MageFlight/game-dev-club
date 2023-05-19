@@ -8,7 +8,7 @@ export class Player extends KinematicBody {
     private spawn: Vector2 = new Vector2(128, 128);
     private movementController: MovementController = new MovementController(new MovementParameters(
       1, 0.009, 0.003, 0.007, 0.001, 0.9, 1.6,
-      200, 1,
+      200, 0,
       83, 50,
       0.8, 1.2
       // 0, 0
