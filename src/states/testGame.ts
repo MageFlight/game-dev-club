@@ -9,6 +9,7 @@ import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
 import { keyboardHandler, log } from "merlin-game-engine";
 import { showLoadingScreen, hideLoadingScreen } from "..";
+import { Utils } from "merlin-game-engine/dist/utils";
 
 export class TestGame extends GameState {
   private levelData: Level[];
@@ -32,6 +33,15 @@ export class TestGame extends GameState {
     console.log("ground: ", ground);
 
     await this.loadCurrentLevel();
+
+    Utils.listen("nextLevel", () => {
+      if (this.currentLevel == this.levelData.length - 1) {
+        alert("Last level!");
+        return;
+      }
+
+      this.changeLevel(this.currentLevel + 1);
+    });
   }
 
   async loadCurrentLevel() {

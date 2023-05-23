@@ -1,7 +1,7 @@
 import { GameObject } from "merlin-game-engine/dist/gameObjects/gameObject";
 import { Level } from "./level";
 import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
-import { AABB, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
+import { AABB, Region, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { Utils } from "merlin-game-engine/dist/utils";
 import { Player } from "../characters/player";
@@ -32,7 +32,10 @@ export class Level1 implements Level {
 
             new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0.8, "ground")
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
-                .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture"))
+                .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture")),
+            new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), "endBox")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture"))
         ];
 
         return gameObjects;
