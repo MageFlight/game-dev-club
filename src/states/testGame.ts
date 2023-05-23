@@ -8,7 +8,6 @@ import { Level1 } from "../levels/level1";
 import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
 import { keyboardHandler, log } from "merlin-game-engine";
-import { showLoadingScreen, hideLoadingScreen } from "..";
 import { Utils } from "merlin-game-engine/dist/utils";
 
 export class TestGame extends GameState {
@@ -45,11 +44,11 @@ export class TestGame extends GameState {
   }
 
   async loadCurrentLevel() {
-    showLoadingScreen();
+    Utils.broadcast("showLoadingScreen")
     delete this.loadedLevel;
     this.loadedLevel = new GameObjectTree(this.physics);
     this.loadedLevel.addGameObjects(await this.levelData[this.currentLevel].getGameObjects());
-    hideLoadingScreen();
+    Utils.broadcast("hideLoadingScreen");
     this.loading = false;
   }
 

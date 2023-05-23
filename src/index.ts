@@ -3,6 +3,7 @@ import { MerlinEngine } from "merlin-game-engine/dist";
 //grabs constructors from testGame file
 import { TestGame } from "./states/testGame";
 import { LoadingScreen } from "./states/loadingScreen";
+import { Utils } from "merlin-game-engine/dist/utils";
 
 
 //adds engine into the file
@@ -15,13 +16,9 @@ const loadingScreen = new LoadingScreen();
 
 let loadsFinished = 0;
 
-export function showLoadingScreen() {
-  engine.pushState(loadingScreen);
-}
+Utils.listen("showLoadingScreen", () => engine.pushState(loadingScreen))
 
-export function hideLoadingScreen() {
-  engine.popState();
-}
+Utils.listen("hideLoadingScreen", () => engine.popState());
 
 
 function loadFinished() {
