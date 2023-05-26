@@ -34,9 +34,9 @@ export class TestGame extends GameState {
     await this.loadCurrentLevel();
 
     Utils.listen("nextLevel", () => {
-      if (this.currentLevel == this.levelData.length - 1 /*&& !this.loading*/) {
+      if (this.currentLevel == this.levelData.length - 1 && !this.loading) {
         this.changeLevel(0)
-      } else /*if (!this.loading)*/ {
+      } else if (!this.loading) {
         this.changeLevel(this.currentLevel + 1);
       }      
     });
