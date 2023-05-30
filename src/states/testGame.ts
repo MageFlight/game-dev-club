@@ -38,14 +38,22 @@ export class TestGame extends GameState {
     console.log("ground: ", ground);
 
     await this.loadCurrentLevel();
+
+    Utils.listen("nextLevel", () => {
+      if (this.currentLevel == this.levelData.length - 1 && !this.loading) {
+        this.changeLevel(0)
+      } else if (!this.loading) {
+        this.changeLevel(this.currentLevel + 1);
+      }      
+    });
   }
 
   async loadCurrentLevel() {
-    showLoadingScreen();
+    Utils.broadcast("showLoadingScreen")
     delete this.loadedLevel;
     this.loadedLevel = new GameObjectTree(this.physics);
     this.loadedLevel.addGameObjects(await this.levelData[this.currentLevel].getGameObjects());
-    hideLoadingScreen();
+    Utils.broadcast("hideLoadingScreen");
     this.loading = false;
   }
 
@@ -60,14 +68,6 @@ export class TestGame extends GameState {
     log("update ", dt);
     this.loadedLevel?.update(dt);
     log("LevelLength: ", this.levelData.length);
-    if (keyboardHandler.keyJustReleased("KeyC") && !this.loading) {
-      this.loading = true
-      this.changeLevel(Math.min(this.currentLevel + 1, this.levelData.length - 1));
-    }
-    if (keyboardHandler.keyJustReleased("KeyX") && !this.loading) {
-      this.loading = true
-      this.changeLevel(Math.max(this.currentLevel - 1, 0));
-    }
   }
 
   override draw() {
