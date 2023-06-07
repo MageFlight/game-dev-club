@@ -11,6 +11,7 @@ import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/te
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 import { TogglePlatform } from "../togles/togglePlatform";
 import { Lever } from "../togles/lever";
+import { Button } from "../togles/button";
 
 export class Level1 implements Level {
     constructor() {}
@@ -44,10 +45,13 @@ export class Level1 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "toggle1Collider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ffff00", "toggle1Texture")),
 
-            new Lever(new Vector2(128, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, "lever1")
+            new Lever(new Vector2(672, 600 - 128), new Vector2(128, 128), 1, "lever1")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "lever1Collider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ff00ff", "lever1Texture"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ff00ff", "lever1Texture")),
 
+            new Button(new Vector2(0, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, "lever1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "lever1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ffff", "lever1Texture"))
         ];
 
         return gameObjects;
