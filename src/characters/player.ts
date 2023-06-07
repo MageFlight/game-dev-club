@@ -17,7 +17,7 @@ export class Player extends KinematicBody {
     private horizontalDirection: number = 0;
   
     constructor() {
-      super(new Vector2(128, 128), new Vector2(128, 128), 0.8, "player");
+      super(new Vector2(128, 128), new Vector2(128, 128), 0b1, 0b1, Vector2.zero(), true, 0.8, "player");
     }
   
     override update(dt: number) {
@@ -32,8 +32,7 @@ export class Player extends KinematicBody {
       }
   
       if (this.position.y > 1088) {
-        this.position = this.spawn.clone();
-        this.movementController.reset();
+        this.die();
       }
     }
 
@@ -42,11 +41,16 @@ export class Player extends KinematicBody {
         Utils.broadcast("nextLevel");
       }
     }
+
+    private die() {
+      this.position = this.spawn.clone();
+      this.velocity = Vector2.zero();
+      this.movementController.reset();
+    }
   
     override physicsUpdate(physics: PhysicsEngine, dt: number) {
       const groundPlatform = this.getGroundPlatform(Vector2.up());
   
-      const velocity = this.movementController.computeVelocity(this.horizontalDirection, keyboardHandler.keyJustPressed("Space"), groundPlatform, 1, physics, dt);
-      this.moveAndSlide(velocity, physics, dt);
+      this.velocity = this.movementController.computeVelocity(this.velocity, this.horizontalDirection, keyboardHandler.keyJustPressed("Space"), groundPlatform, 1, physics, dt);
     }
   }

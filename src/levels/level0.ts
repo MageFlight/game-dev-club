@@ -32,10 +32,10 @@ export class Level0 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
 
-            new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0.8, "ground")
+            new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0b1, 0b1, 0.8, "ground")
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture")),
-            new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), "endBox")
+            new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 0b1, 0b1, "endBox")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture"))
         ];
