@@ -95,7 +95,6 @@ export class MovementParameters { // TODO: Make this an interface or type (Proba
   export class MovementController {
     private movementParameters: MovementParameters;
   
-    private velocity = Vector2.zero();
     private gravityMultiplier = 1;
   
     private jumpsUsed = 0;
@@ -132,7 +131,9 @@ export class MovementParameters { // TODO: Make this an interface or type (Proba
      * @param {PhysicsEngine} physics The physics engine used in physics calculations
      * @returns The desired velocity after taking into account the current velocity and constraits.
      */
-    computeVelocity(desiredHorizontalDirection: number, jumpDesired: boolean, groundPlatform: RigidBody | null, downDirection: number, physics: PhysicsEngine, dt: number) {
+    computeVelocity(currentVelocity: Vector2, desiredHorizontalDirection: number, jumpDesired: boolean, groundPlatform: RigidBody | null, downDirection: number, physics: PhysicsEngine, dt: number) {
+      let velocity = currentVelocity.clone();
+
       const onGround = groundPlatform != null;
       log("onGround: ", onGround);
       this.jumped = this.jumped && !onGround;
@@ -158,13 +159,13 @@ export class MovementParameters { // TODO: Make this an interface or type (Proba
       } else {
         acceleration = onGround ? this.movementParameters.maxAcceleration : this.movementParameters.maxAirAcceleration;
   
-        if (desiredHorizontalDirection != Math.sign(this.velocity.x)) { // Turning
+        if (desiredHorizontalDirection != Math.sign(velocity.x)) { // Turning
           acceleration *= this.movementParameters.turnRate;
         }
       }
   
       acceleration /= onGround ? groundPlatform.getFriction() : this.movementParameters.airFriction;
-      this.velocity.x = Utils.moveTowards(this.velocity.x, desiredHorizontalDirection * this.movementParameters.maxSpeed, acceleration * dt);
+      velocity.x = Utils.moveTowards(velocity.x, desiredHorizontalDirection * this.movementParameters.maxSpeed, acceleration * dt);
   
       //// Vertical Movement ////
       // Jumping
@@ -192,33 +193,32 @@ export class MovementParameters { // TODO: Make this an interface or type (Proba
   
         log("jumpSpeed: ", jumpSpeed);
         // Making jump height constant in air jump environments
-        if (this.velocity.y < 0) {
-          jumpSpeed = jumpSpeed - this.velocity.y;
-        } else if (this.velocity.y > 0) {
-          jumpSpeed -= this.velocity.y;
+        if (velocity.y < 0) {
+          jumpSpeed = jumpSpeed - velocity.y;
+        } else if (velocity.y > 0) {
+          jumpSpeed -= velocity.y;
         }
   
-        this.velocity.y += jumpSpeed;
+        velocity.y += jumpSpeed;
       }
   
       // Special Gravity
   
-      if (this.velocity.y * downDirection < 0) {
+      if (velocity.y * downDirection < 0) {
         this.gravityMultiplier = this.movementParameters.upwardGravity * downDirection;
-      } else if (this.velocity.y * downDirection > 0) {
+      } else if (velocity.y * downDirection > 0) {
         this.gravityMultiplier = this.movementParameters.downwardGravity * downDirection;
       } else {
         this.gravityMultiplier = downDirection;
       }
   
       // Apply Gravity
-      this.velocity.y += physics.getGravity() * this.gravityMultiplier * dt;
+      velocity.y += physics.getGravity() * this.gravityMultiplier * dt;
   
-      return this.velocity;
+      return velocity;
     }
     
     reset() {
-      this.velocity = Vector2.zero();
       this.gravityMultiplier = 1;
     }
   }

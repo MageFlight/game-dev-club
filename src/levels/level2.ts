@@ -25,7 +25,7 @@ export class Level2 implements Level {
       }
   
       async createPlatform(x: number, y: number, length: number, width: number, friction: number, name: string, texture: string) {
-        return new StaticBody(new Vector2(x, Utils.GAME_HEIGHT - y), new Vector2(length, width), friction, name)
+        return new StaticBody(new Vector2(x, Utils.GAME_HEIGHT - y), new Vector2(length, width), 0b1, 0b1, friction, name)
           .addChild(new AABB(Vector2.zero(), new Vector2(length, width), true, name + "Collider"))
           .addChild(new TextureRect(Vector2.zero(), new Vector2(length, width), await this.createGroundTexture(new Vector2(length, width)), texture))
       }
