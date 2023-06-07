@@ -8,7 +8,6 @@ import { Level1 } from "../levels/level1";
 import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
 import { keyboardHandler, log } from "merlin-game-engine";
-import { showLoadingScreen, hideLoadingScreen } from "..";
 import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
 import { StaticBody, AABB } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Utils } from "merlin-game-engine/dist/utils";
