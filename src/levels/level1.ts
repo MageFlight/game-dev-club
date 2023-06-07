@@ -9,6 +9,8 @@ import { SquarePlayer } from "../characters/squarePlayer";
 import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
 import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
+import { TogglePlatform } from "../togles/togglePlatform";
+import { Lever } from "../togles/lever";
 
 export class Level1 implements Level {
     constructor() {}
@@ -33,9 +35,19 @@ export class Level1 implements Level {
             new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0b1, 0b1, 0.8, "ground")
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture")),
+           
             new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 0b1, 0b1, "endBox")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture")),
+
+            new TogglePlatform(new Vector2(512, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, "toggle1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "toggle1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ffff00", "toggle1Texture")),
+
+            new Lever(new Vector2(128, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, "lever1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "lever1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ff00ff", "lever1Texture"))
+
         ];
 
         return gameObjects;
