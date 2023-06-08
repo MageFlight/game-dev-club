@@ -41,8 +41,8 @@ export class Level1 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture")),
 
-            new TogglePlatform(new Vector2(512, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, "toggle1")
-                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "toggle1Collider"))
+            new TogglePlatform(new Vector2(512, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, false, "toggle1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), false, "toggle1Collider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ffff00", "toggle1Texture")),
 
             new Lever(new Vector2(672, 600 - 128), new Vector2(128, 128), 1, "lever1")
