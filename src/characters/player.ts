@@ -6,18 +6,19 @@ import { MovementController, MovementParameters } from "../components/movementCo
 import { Utils } from "merlin-game-engine/dist/utils";
 
 export class Player extends KinematicBody {
-    private spawn: Vector2 = new Vector2(128, 128);
+    private spawn: Vector2;
     private movementController: MovementController = new MovementController(new MovementParameters(
       1, 0.009, 0.003, 0.007, 0.001, 0.9, 1.6,
-      200, 0,
+      100, 0,
       83, 50,
       0.8, 1.2
       // 0, 0
     ));
     private horizontalDirection: number = 0;
   
-    constructor() {
-      super(new Vector2(128, 128), new Vector2(128, 128), 0b1, 0b1, Vector2.zero(), true, 0.8, "player");
+    constructor(position: Vector2) {
+      super(position, new Vector2(128, 128), 0b1, 0b1, Vector2.zero(), true, 0.8, "player");
+      this.spawn = position.clone();
     }
   
     override update(dt: number) {
