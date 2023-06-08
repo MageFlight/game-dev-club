@@ -36,6 +36,10 @@ export class Level1 implements Level {
             new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0b1, 0b1, 0.8, "ground")
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture")),
+            
+            new Region(new Vector2(1152, Utils.GAME_HEIGHT - 192), new Vector2(128, 64), 0b1, 0b1, "spike1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 64), true, "spike1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 64), "#d9534a", "spike1exture")),
            
             new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 0b1, 0b1, "endBox")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
