@@ -19,7 +19,7 @@ export class TestGame extends GameState {
   private levelData: Level[];
   private loadedLevel?: GameObjectTree;
   //controls level VVVVVV
-  private currentLevel: number = 2;
+  private currentLevel: number = 1;
   private physics: PhysicsEngine;
   private loading: boolean;
   
