@@ -39,7 +39,7 @@ export class Level0 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture"))
         ];
-        await wait(10000);
+        //await wait(10000);
 
 
         return gameObjects;
