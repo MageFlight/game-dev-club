@@ -1,7 +1,7 @@
 import { GameObject } from "merlin-game-engine/dist/gameObjects/gameObject";
 import { Level } from "./level";
 import { ColorRect, TextureRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
-import { StaticBody, AABB } from "merlin-game-engine/dist/gameObjects/physicsObjects";
+import { StaticBody, AABB, Region } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import { Utils } from "merlin-game-engine/dist/utils";
@@ -45,7 +45,11 @@ export class Level5 implements Level {
             .addChild(this.createColorRect(width, height, color, name + "Texture"));
     }
 
-
+    async createRegion(x: number, y: number, width: number, height: number, name: string, color: string) {
+        return new Region(new Vector2(x, Utils.GAME_HEIGHT - y), new Vector2(width, height), 0b1, 0b1, name)
+            .addChild(new AABB(Vector2.zero(), new Vector2(width, height), true, name + "collider"))
+            .addChild(this.createColorRect(width, height, color, name + "Texture"));
+    }
 
     public async getGameObjects(): Promise<GameObject[]> {
         return [];
