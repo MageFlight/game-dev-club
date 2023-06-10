@@ -18,17 +18,18 @@ export class Level4 implements Level {
         const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(Utils.GAME_WIDTH, 128), new Vector2(64, 64), -1, true, true);
         const groundBlock = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(640, 320), new Vector2(64, 64), -1, true, true);
         const thinHorizontal = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(640, 64), new Vector2(64, 64), -1, true, true);
+        const wall = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(64, Utils.GAME_HEIGHT), new Vector2(64, 64), -1, true, true);
 
         const objects: GameObject[] = [
             new Player(new Vector2(256, Utils.GAME_HEIGHT - 576))
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
             
-            new SquarePlayer(new Vector2(0, Utils.GAME_HEIGHT - 832), "squarePlayer")
+            new SquarePlayer(new Vector2(64, Utils.GAME_HEIGHT - 832), "squarePlayer")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
 
-            new StaticBody(new Vector2(0, 0), new Vector2(Utils.GAME_WIDTH, 10), 0b1, 0b1, 0.8, "ceiling")
+            new StaticBody(Vector2.zero(), new Vector2(Utils.GAME_WIDTH, 10), 0b1, 0b1, 0.8, "ceiling")
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "ceilingCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "ceilingTexture")),
             
@@ -47,6 +48,14 @@ export class Level4 implements Level {
             new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 704), new Vector2(640, 64), 0b1, 0b1, 0.8, "middle")
                 .addChild(new AABB(Vector2.zero(), new Vector2(640, 64), true, "middleCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(640, 64), thinHorizontal, "middleTexture")),
+            
+            new StaticBody(Vector2.zero(), new Vector2(64, Utils.GAME_HEIGHT), 0b1, 0b1, 0.8, "wallLeft")
+                .addChild(new AABB(Vector2.zero(), new Vector2(64, Utils.GAME_HEIGHT), true, "wallLeftCollider"))
+                .addChild(new TextureRect(Vector2.zero(), new Vector2(64, Utils.GAME_HEIGHT), wall, "wallLeftTexture")),
+
+            new StaticBody(new Vector2(Utils.GAME_WIDTH - 64, 0), new Vector2(64, Utils.GAME_HEIGHT), 0b1, 0b1, 0.8, "wallRight")
+                .addChild(new AABB(Vector2.zero(), new Vector2(64, Utils.GAME_HEIGHT), true, "wallRightCollider"))
+                .addChild(new TextureRect(Vector2.zero(), new Vector2(64, Utils.GAME_HEIGHT), wall, "wallRightTexture")),
         ];
 
         return objects;
