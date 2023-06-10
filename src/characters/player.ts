@@ -1,23 +1,25 @@
 import { keyboardHandler, log } from "merlin-game-engine";
-import { KinematicBody, Region } from "merlin-game-engine/dist/gameObjects/physicsObjects";
+import { AABB, CollisionObject, KinematicBody, Region, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
-import { PhysicsEngine } from "merlin-game-engine/dist/physicsEngine/physics";
+import { CollisionData, PhysicsEngine } from "merlin-game-engine/dist/physicsEngine/physics";
 import { MovementController, MovementParameters } from "../components/movementController";
 import { Utils } from "merlin-game-engine/dist/utils";
 
 export class Player extends KinematicBody {
-    private spawn: Vector2 = new Vector2(128, 128);
+    private spawn: Vector2;
     private movementController: MovementController = new MovementController(new MovementParameters(
       1, 0.009, 0.003, 0.007, 0.001, 0.9, 1.6,
-      200, 0,
+      100, 0,
       83, 50,
       0.8, 1.2
       // 0, 0
     ));
     private horizontalDirection: number = 0;
+    private willDie: boolean = false;
   
-    constructor() {
-      super(new Vector2(128, 128), new Vector2(128, 128), 0b1, 0b1, Vector2.zero(), true, 0.8, "player");
+    constructor(position: Vector2) {
+      super(position, new Vector2(128, 128), 0b1, 0b1, Vector2.zero(), true, 0.8, "player");
+      this.spawn = position.clone();
     }
   
     override update(dt: number) {
@@ -31,14 +33,36 @@ export class Player extends KinematicBody {
         this.horizontalDirection = 1;
       }
   
-      if (this.position.y > 1088) {
-        this.die();
-      }
+      this.willDie = this.willDie || this.shouldDie();
+      if (this.willDie) this.die();
     }
+
+    private shouldDie(): boolean {
+      const isOutsideWorld = this.position.x < -this.size.x || this.position.x > Utils.GAME_WIDTH || this.position.y < -this.size.y || this.position.y > Utils.GAME_HEIGHT;
+      log("RegionsInside Length: ", this.regionsInside);
+      const squished = this.lastFrameCollisions.some((collision1: CollisionData) => {
+        for (const collision2 of this.lastFrameCollisions) {
+          const otherCollider1 = collision1.colliderA === this ? collision1.colliderB : collision1.colliderA;
+          const otherCollider2 = collision2.colliderA === this ? collision2.colliderB : collision2.colliderA;
+
+          if (!collision1.normal.equals(collision2.normal.multiply(-1))) continue;
+
+          const staticAndUnpushable = otherCollider1 instanceof StaticBody && otherCollider2 instanceof KinematicBody && !otherCollider2.isPushable();
+          const unpushableAndStatic = otherCollider2 instanceof StaticBody && otherCollider1 instanceof KinematicBody && !otherCollider1.isPushable();
+          if (staticAndUnpushable || unpushableAndStatic) return true;
+        }
+      });
+
+      return isOutsideWorld || squished;
+    }
+
+
 
     override onRegionEnter(region: Region): void {
       if (region.getName() == "endBox") {
         Utils.broadcast("nextLevel");
+      } else if (region.getName().toLowerCase().includes("spike")) {
+        this.willDie = true;
       }
     }
 
@@ -46,6 +70,7 @@ export class Player extends KinematicBody {
       this.position = this.spawn.clone();
       this.velocity = Vector2.zero();
       this.movementController.reset();
+      this.willDie = false;
     }
   
     override physicsUpdate(physics: PhysicsEngine, dt: number) {

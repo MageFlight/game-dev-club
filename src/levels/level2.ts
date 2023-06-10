@@ -41,7 +41,7 @@ export class Level2 implements Level {
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
 
         return [
-            new Player()
+            new Player(new Vector2(128, 128))
             .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
             .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
           

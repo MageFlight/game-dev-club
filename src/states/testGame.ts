@@ -15,6 +15,7 @@ import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
 import { Level2 } from "../levels/level2";
 import { Level4 } from "../levels/level4";
+import { Level3 } from "../levels/level3";
 
 export class TestGame extends GameState {
   private levelData: Level[];
@@ -27,7 +28,7 @@ export class TestGame extends GameState {
   constructor() {
     super();
     this.physics = new PhysicsEngine();
-    this.levelData = [new Level0(), new Level1(), new Level2(), new Level4()];
+    this.levelData = [new Level0(), new Level1(), new Level2(), new Level3(), new Level4()];
     this.loading = false;
   }
 
