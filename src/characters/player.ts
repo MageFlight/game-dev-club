@@ -38,13 +38,21 @@ export class Player extends KinematicBody {
 
     private shouldDie(): boolean {
       const isOutsideWorld = this.position.x < -this.size.x || this.position.x > Utils.GAME_WIDTH || this.position.y < -this.size.y || this.position.y > Utils.GAME_HEIGHT;
-      log("RegionsInside Length: ", this.regionsInside);
       const squished = this.lastFrameCollisions.some((collision1: CollisionData) => {
         for (const collision2 of this.lastFrameCollisions) {
-          const otherCollider1 = collision1.colliderA === this ? collision1.colliderB : collision1.colliderA;
-          const otherCollider2 = collision2.colliderA === this ? collision2.colliderB : collision2.colliderA;
+          const collision1WasColliderA = collision1.colliderA === this;
+          const collision2WasColliderA = collision2.colliderA === this;
+          const otherCollider1 = collision1WasColliderA ? collision1.colliderB : collision1.colliderA;
+          const otherCollider2 = collision2WasColliderA ? collision2.colliderB : collision2.colliderA;
 
-          if (!collision1.normal.equals(collision2.normal.multiply(-1))) continue;
+          log("collision1ColliderA: ", collision1.colliderA.getName(), " collision1ColliderB: ", collision1.colliderB?.getName(), " normal: ", collision1.normal);
+          log("collision2ColliderA: ", collision2.colliderA.getName(), " collision2ColliderB: ", collision2.colliderB?.getName(), " normal: ", collision2.normal);
+          log("---");
+
+          const correctedCollision1Normal = collision1WasColliderA ? collision1.normal : collision1.normal.multiply(-1);
+          const correctedCollision2Normal = collision2WasColliderA ? collision2.normal : collision2.normal.multiply(-1);
+          
+          if (!correctedCollision1Normal.equals(correctedCollision2Normal.multiply(-1))) continue;
 
           const staticAndUnpushable = otherCollider1 instanceof StaticBody && otherCollider2 instanceof KinematicBody && !otherCollider2.isPushable();
           const unpushableAndStatic = otherCollider2 instanceof StaticBody && otherCollider1 instanceof KinematicBody && !otherCollider1.isPushable();
