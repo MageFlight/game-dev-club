@@ -58,9 +58,7 @@ export class Player extends KinematicBody {
 
 
     override onRegionEnter(region: Region): void {
-      if (region.getName() == "endBox") {
-        Utils.broadcast("nextLevel");
-      } else if (region.getName().toLowerCase().includes("spike")) {
+      if (region.getName().toLowerCase().includes("spike")) {
         this.willDie = true;
       }
     }
