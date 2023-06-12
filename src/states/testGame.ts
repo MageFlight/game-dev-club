@@ -14,19 +14,21 @@ import { Utils } from "merlin-game-engine/dist/utils";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
 import { Level2 } from "../levels/level2";
+import { Level3 } from "../levels/level3";
+import { Level5 } from "../levels/level5";
 
 export class TestGame extends GameState {
   private levelData: Level[];
   private loadedLevel?: GameObjectTree;
   //controls level VVVVVV
-  private currentLevel: number = 0;
+  private currentLevel: number = 4;
   private physics: PhysicsEngine;
   private loading: boolean;
   
   constructor() {
     super();
     this.physics = new PhysicsEngine();
-    this.levelData = [new Level0(), new Level1(), new Level2()];
+    this.levelData = [new Level0(), new Level1(), new Level2(), new Level3(), new Level5()];
     this.loading = false;
   }
 

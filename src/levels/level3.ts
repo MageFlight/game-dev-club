@@ -1,7 +1,7 @@
 import { GameObject } from "merlin-game-engine/dist/gameObjects/gameObject";
 import { Level } from "./level";
 import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
-import { AABB, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
+import { AABB, Region, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
@@ -10,7 +10,7 @@ import { Utils } from "merlin-game-engine/dist/utils";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
 
-export class Level2 implements Level {
+export class Level3 implements Level {
     constructor() {}
 
     /*
@@ -41,29 +41,25 @@ export class Level2 implements Level {
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
 
         return [
-            new Player(new Vector2(128, 128))
+            new Player(new Vector2(192, 640))
             .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
             .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
           
-            new SquarePlayer(new Vector2(128, 128), "squarePlayer")
+            new SquarePlayer(new Vector2(64, 384), "squarePlayer")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
     
-            await this.createPlatform(0, 1024, 128, 1024, 0.8, "ground", "groundTexture"),
-            await this.createPlatform(128, 128, 128, 128, 0.8, "ground", "groundTexture"),   
-            // move all this left by 128
-            // ^ ??? what
-            await this.createPlatform(256, 1024, 128, 640, 0.8, "ground", "groundTexture"),   
-            await this.createPlatform(256, 1088, 1408, 64, 0.8, "ground", "groundTexture"), 
-            await this.createPlatform(512, 384, 256, 256, 0.8, "ground", "groundTexture"), 
-            await this.createPlatform(768, 384, 128, 128, 0.8, "ground", "groundTexture"),
-            await this.createPlatform(512, 128, 1024, 128, 0.8, "ground", "groundTexture"),   
-            await this.createPlatform(1408, 896, 128, 896, 0.8, "ground", "groundTexture"),   
-            await this.createPlatform(384, 1024, 768, 128, 0.8, "ground", "groundTexture"),   
-            await this.createPlatform(384, 896, 256, 128, 0.8, "ground", "groundTexture"),   
-            await this.createPlatform(1024, 896, 128, 64, 0.8, "ground", "groundTexture"),   
-            await this.createPlatform(1152, 1024, 128, 768, 0.8, "ground", "groundTexture"), 
-            await this.createPlatform(1024, 384, 128, 128, 0.8, "ground", "groundTexture"),
-        ];
+            await this.createPlatform(0, Utils.GAME_HEIGHT, Utils.GAME_WIDTH, 64, 0.8, "ground", "groundTexture"),
+            await this.createPlatform(0, 576, 640, 64, 0.8, "ground", "groundTexture"),
+            await this.createPlatform(0, Utils.GAME_HEIGHT - 64, 64, 448, 0.8, "ground", "groundTexture"),
+            await this.createPlatform(0, Utils.GAME_HEIGHT/2 - 32, 64, 192, 0.8, "ground", "groundTexture"),           
+            await this.createPlatform(0, 320, 512, 320, 0.8, "ground", "groundTexture"),           
+            await this.createPlatform(1344, 320, Utils.GAME_WIDTH - 1344, 320, 0.8, "ground", "groundTexture"),           
+            await this.createPlatform(Utils.GAME_WIDTH - 64, Utils.GAME_HEIGHT - 64, 64, Utils.GAME_HEIGHT - 384, 0.8, "ground", "groundTexture"),           
+            await this.createPlatform(320, 64, 1024, 64, 0.8, "ground", "groundTexture"),
+            new Region(new Vector2(Utils.GAME_WIDTH - 256, Utils.GAME_HEIGHT - 512), new Vector2(192, 192), 0b1, 0b1, "endBox")
+                .addChild(new AABB(Vector2.zero(), new Vector2(192, 192), true, "endBoxCollider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(192, 192), "orange", "endBoxTexture"))
+        ];         
     }
 }
