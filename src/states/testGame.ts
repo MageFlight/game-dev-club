@@ -26,7 +26,7 @@ export class TestGame extends GameState {
   constructor() {
     super();
     this.physics = new PhysicsEngine();
-    this.levelData = [new Level0(), new Level1(), new Level2()];
+    this.levelData = [new Level1(), new Level2()];
     this.loading = false;
   }
 
