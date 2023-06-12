@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "webpack && firebase deploy",
     "build": "webpack",
     "serve": "webpack serve --open"
   },
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.3",
+    "firebase-tools": "^12.3.1",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.2",
     "webpack": "^5.86.0",
