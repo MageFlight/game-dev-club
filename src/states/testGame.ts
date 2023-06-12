@@ -4,8 +4,6 @@ import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { PhysicsEngine } from "merlin-game-engine/dist/physicsEngine/physics";
 import { TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
-import { Level1 } from "../levels/level1";
-import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
 import { keyboardHandler, log } from "merlin-game-engine";
 import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
@@ -13,22 +11,22 @@ import { StaticBody, AABB } from "merlin-game-engine/dist/gameObjects/physicsObj
 import { Utils } from "merlin-game-engine/dist/utils";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
+import { Level0 } from "../levels/level0";
+import { Level1 } from "../levels/level1";
 import { Level2 } from "../levels/level2";
-import { Level3 } from "../levels/level3";
-import { Level5 } from "../levels/level5";
 
 export class TestGame extends GameState {
   private levelData: Level[];
   private loadedLevel?: GameObjectTree;
   //controls level VVVVVV
-  private currentLevel: number = 4;
+  private currentLevel: number = 0;
   private physics: PhysicsEngine;
   private loading: boolean;
   
   constructor() {
     super();
     this.physics = new PhysicsEngine();
-    this.levelData = [new Level0(), new Level1(), new Level2(), new Level3(), new Level5()];
+    this.levelData = [new Level0(), new Level1(), new Level2()];
     this.loading = false;
   }
 
