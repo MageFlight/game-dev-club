@@ -26,7 +26,7 @@ export class TestGame extends GameState {
   constructor() {
     super();
     this.physics = new PhysicsEngine();
-    this.levelData = [new Level1(), new Level2()];
+    this.levelData = [new Level2()];
     this.loading = false;
   }
 
@@ -40,7 +40,7 @@ export class TestGame extends GameState {
 
     Utils.listen("nextLevel", () => {
       if (this.currentLevel == this.levelData.length - 1 && !this.loading) {
-        this.changeLevel(0)
+        alert("You finished the game!");
       } else if (!this.loading) {
         this.changeLevel(this.currentLevel + 1);
       }      
