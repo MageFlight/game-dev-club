@@ -9,6 +9,7 @@ import { SquarePlayer } from "../characters/squarePlayer";
 import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
 import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
+import { Goal } from "../goal";
 
 function wait(delay: number): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -35,12 +36,11 @@ export class Level0 implements Level {
             new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0b1, 0b1, 0.8, "ground")
                 .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
                 .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture")),
-            new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 0b1, 0b1, "endBox")
-                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture"))
-        ];
-        await wait(10000);
 
+            new Goal(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128))
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "goalCollider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "goalTexture"))
+        ];
 
         return gameObjects;
     }
