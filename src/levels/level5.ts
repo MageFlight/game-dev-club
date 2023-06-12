@@ -11,6 +11,7 @@ import { Lever } from "../togles/lever";
 import { TogglePlatform } from "../togles/togglePlatform";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
+import { Goal } from "../goal";
 
 export class Level5 implements Level {
     constructor() {}
@@ -86,13 +87,15 @@ export class Level5 implements Level {
             // Chimney
             await this.createPlatform(1536, 1024, 64, 128, 0.8, "stopper"),
 
-            await this.createPlatform(1536, 640, 64, 640, 0.8, "chimneySide"),
-            await this.createTogglePlatform(1600, 640, 256, 64, 1, "chimneyTop", "#0efff6"),
-            await this.createButton(1792, 704, 64, 64, 1, "blueButton", "#0dcbc4"),
+            await this.createPlatform(1536, 576, 64, 576, 0.8, "chimneySide"),
+            await this.createTogglePlatform(1600, 576, 256, 64, 1, "chimneyTop", "#0efff6"),
+            await this.createButton(1792, 640, 64, 64, 1, "blueButton", "#0dcbc4"),
 
             // Goal Area
             await this.createTogglePlatform(256, 1024, 64, 192, 4, "goalGate", "#ff0000"),
-            await this.createRegion(64, 1024, 192, 192, "endBox", "orange"),
+            new Goal(new Vector2(64, Utils.GAME_HEIGHT - 1024), new Vector2(192, 192))
+                .addChild(new AABB(Vector2.zero(), new Vector2(192, 192), true, "goalCollider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(192, 192), "orange", "goalTexture")),
 
             // Players
             new Player(new Vector2(384, 128))
