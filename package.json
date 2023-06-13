@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "webpack && firebase emulators:start",
     "deploy": "webpack && firebase deploy",
     "build": "webpack",
     "serve": "webpack serve --open"
