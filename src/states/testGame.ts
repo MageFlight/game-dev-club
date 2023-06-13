@@ -40,7 +40,8 @@ export class TestGame extends GameState {
 
     Utils.listen("nextLevel", () => {
       if (this.currentLevel == this.levelData.length - 1 && !this.loading) {
-        alert("You finished the game!");
+        alert("You finished the game! Reload to play again.");
+        this.paused = true;
       } else if (!this.loading) {
         this.changeLevel(this.currentLevel + 1);
       }      
