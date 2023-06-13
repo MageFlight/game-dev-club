@@ -69,21 +69,21 @@ export class Level3 implements Level {
                 .addChild(new AABB(Vector2.zero(), new Vector2(64, 64), true, "lever1Collider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(64, 64), "#00ffff", "lever1Texture")),
 
-            new Button(new Vector2(384, 64), new Vector2(192, 192), 2, "lever1")
-                .addChild(new AABB(Vector2.zero(), new Vector2(192, 192), true, "lever1Collider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(192, 192), "#ff00ff", "lever1Texture")),
+            new Button(new Vector2(64, 64), new Vector2(64, 64), 2, "lever1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(64, 64), true, "lever1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(64, 64), "#ff00ff", "lever1Texture")),
 
             new TogglePlatform(new Vector2(512, Utils.GAME_HEIGHT - 320), new Vector2(832, 64), 1, false, "toggle1")
                 .addChild(new AABB(Vector2.zero(), new Vector2(832, 64), false, "toggle1Collider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(832, 64), "#ffff00", "toggle1Texture")),
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(832, 64), "#00ffff", "toggle1Texture")),
 
             new TogglePlatform(new Vector2(576, 64), new Vector2(64, 448), 2, true, "toggle2")
                 .addChild(new AABB(Vector2.zero(), new Vector2(64, 448), true, "toggle2Collider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(64, 448), "#ffff00", "toggle2Texture")),
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(64, 448), "#ff00ff", "toggle2Texture")),
 
             new Region(new Vector2(512, Utils.GAME_HEIGHT - 192), new Vector2(832, 128), 0b1, 0b1, "spike")
                 .addChild(new AABB(Vector2.zero(), new Vector2(832, 128), true, "spikeCollider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(832, 128), "orange", "spikeTexture")),
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(832, 128), "#656271", "spikeTexture")),
         ];         
     }
 }
