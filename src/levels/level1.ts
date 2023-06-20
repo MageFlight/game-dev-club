@@ -8,7 +8,9 @@ import { SquarePlayer } from "../characters/squarePlayer";
 import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import { Utils } from "merlin-game-engine/dist/utils";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
-import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
+import { TogglePlatform } from "../togles/togglePlatform";
+import { Lever } from "../togles/lever";
+import { Button } from "../togles/button";
 
 export class Level1 implements Level {
     constructor() {}
@@ -39,27 +41,42 @@ export class Level1 implements Level {
         Probably a good idea to change resolution to 16:9 sometime
         */
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
-
-        return [
-            new Player(new Vector2(192, 640))
-            .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
-            .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
-          
-            new SquarePlayer(new Vector2(64, 384), "squarePlayer")
+        const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
+        
+        const gameObjects = [
+            new Player(new Vector2(128, 128))
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
+                .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
+            
+            new SquarePlayer(new Vector2(128, 128), "squarePlayer")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
-    
-            await this.createPlatform(0, Utils.GAME_HEIGHT, Utils.GAME_WIDTH, 64, 0.8, "ground", "groundTexture"),
-            await this.createPlatform(0, 576, 640, 64, 0.8, "ground", "groundTexture"),
-            await this.createPlatform(0, Utils.GAME_HEIGHT - 64, 64, 448, 0.8, "ground", "groundTexture"),
-            await this.createPlatform(0, Utils.GAME_HEIGHT/2 - 32, 64, 192, 0.8, "ground", "groundTexture"),           
-            await this.createPlatform(0, 320, 512, 320, 0.8, "ground", "groundTexture"),           
-            await this.createPlatform(1344, 320, Utils.GAME_WIDTH - 1344, 320, 0.8, "ground", "groundTexture"),           
-            await this.createPlatform(Utils.GAME_WIDTH - 64, Utils.GAME_HEIGHT - 64, 64, Utils.GAME_HEIGHT - 384, 0.8, "ground", "groundTexture"),           
-            await this.createPlatform(320, 64, 1024, 64, 0.8, "ground", "groundTexture"),
-            new Region(new Vector2(Utils.GAME_WIDTH - 256, Utils.GAME_HEIGHT - 512), new Vector2(192, 192), 0b1, 0b1, "endBox")
-                .addChild(new AABB(Vector2.zero(), new Vector2(192, 192), true, "endBoxCollider"))
-                .addChild(new ColorRect(Vector2.zero(), new Vector2(192, 192), "orange", "endBoxTexture"))
-        ];         
+
+            new StaticBody(new Vector2(640, 600), new Vector2(192, 320), 0b1, 0b1, 0.8, "wall")
+                .addChild(new AABB(Vector2.zero(), new Vector2(192, 320), true, "wallCollider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(192, 320), "#ff0000", "wallTex")),
+
+            new StaticBody(new Vector2(0, Utils.GAME_HEIGHT - 128), new Vector2(1280, 128), 0b1, 0b1, 0.8, "ground")
+                .addChild(new AABB(Vector2.zero(), new Vector2(1280, 128), true, "groundCollider"))
+                .addChild(new TextureRect(Vector2.zero(), new Vector2(1280, 128), ground, "groundTexture")),
+           
+            new Region(new Vector2(900, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 0b1, 0b1, "endBox")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "endBoxCollider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "orange", "endBoxTexture")),
+
+            new TogglePlatform(new Vector2(512, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, false, "toggle1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), false, "toggle1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ffff00", "toggle1Texture")),
+
+            new Lever(new Vector2(672, 600 - 128), new Vector2(128, 128), 1, "lever1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "lever1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#ff00ff", "lever1Texture")),
+
+            new Button(new Vector2(0, Utils.GAME_HEIGHT - 256), new Vector2(128, 128), 1, "lever1")
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "lever1Collider"))
+                .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ffff", "lever1Texture"))
+        ];
+
+        return gameObjects;
     }
 }

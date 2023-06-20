@@ -56,6 +56,7 @@ export class Level2 implements Level {
 
     public async getGameObjects(): Promise<GameObject[]> {
         return [
+
             // Frame
             await this.createPlatform(0, Utils.GAME_HEIGHT, Utils.GAME_WIDTH, 64, 0.8, "frameTop"),
             await this.createPlatform(0, Utils.GAME_HEIGHT - 64, 64, Utils.GAME_HEIGHT - 64, 9.8, "frameLeft"),

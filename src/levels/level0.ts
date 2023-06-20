@@ -39,12 +39,13 @@ export class Level0 implements Level {
         Probably a good idea to change resolution to 16:9 sometime
         */
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
-
-        return [
-            new Player(new Vector2(128, 128))
-            .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
-            .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
-          
+        const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
+        
+        const gameObjects = [
+            new Player(new Vector2(128,128))
+                .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "playerCollider"))
+                .addChild(new TextureRect(Vector2.zero(), new Vector2(128, 128), tex, "playerTexture")),
+            
             new SquarePlayer(new Vector2(128, 128), "squarePlayer")
                 .addChild(new AABB(Vector2.zero(), new Vector2(128, 128), true, "squarePlayerCollider"))
                 .addChild(new ColorRect(Vector2.zero(), new Vector2(128, 128), "#00ff00", "squarePlayerTexture")),
@@ -65,5 +66,9 @@ export class Level0 implements Level {
             await this.createPlatform(1152, 1024, 128, 768, 0.8, "ground", "groundTexture"), 
             await this.createPlatform(1024, 384, 128, 128, 0.8, "ground", "groundTexture"),
         ];
+        //await wait(10000);
+
+
+        return gameObjects;
     }
 }

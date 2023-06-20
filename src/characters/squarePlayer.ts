@@ -60,6 +60,22 @@ export class SquarePlayer extends KinematicBody {
         if (otherCollider !== undefined && !(otherCollider instanceof Player) && !this.direction.equals(Vector2.zero()) && collision.normal.abs().equals(this.direction.abs())) {
             this.direction = Vector2.zero();
         }
+
+        this.willDie = this.willDie || this.shouldDie();
+
+        if (this.willDie) this.die();
+    }
+
+    private shouldDie(): boolean {
+        const isOutsideWorld = this.position.x < -this.size.x || this.position.x > Utils.GAME_WIDTH || this.position.y < -this.size.y || this.position.y > Utils.GAME_HEIGHT;
+
+        return isOutsideWorld;
+    }
+
+    override onRegionEnter(region: Region): void {
+        if (region.getName().toLowerCase().includes("spike")) {
+            this.willDie = true;
+        }
     }
 
     die() {
