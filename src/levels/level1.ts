@@ -3,11 +3,10 @@ import { Level } from "./level";
 import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
 import { AABB, Region, StaticBody } from "merlin-game-engine/dist/gameObjects/physicsObjects";
 import { Vector2 } from "merlin-game-engine/dist/math/vector2";
-import { Utils } from "merlin-game-engine/dist/utils";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
-import { ResourceLoader } from "merlin-game-engine/dist/resources/resource";
 import { ImageTexture, TiledTexture } from "merlin-game-engine/dist/resources/textures";
+import { Utils } from "merlin-game-engine/dist/utils";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
 import { TogglePlatform } from "../togles/togglePlatform";
 import { Lever } from "../togles/lever";
@@ -16,7 +15,31 @@ import { Button } from "../togles/button";
 export class Level1 implements Level {
     constructor() {}
 
+    /*
+    Instead of declaring a single variable as ground dimensions, texture setups etc,
+    this function is called to return the exact same thing.
+
+    Original:
+    const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
+    */
+    createGroundTexture(size: Vector2): Promise<TiledTexture> {
+        return TiledTexture.createFromPaths([RightNormalV3], size, new Vector2(64, 64), -1, true, true);
+      }
+  
+      async createPlatform(x: number, y: number, length: number, width: number, friction: number, name: string, texture: string) {
+        return new StaticBody(new Vector2(x, Utils.GAME_HEIGHT - y), new Vector2(length, width), 0b1, 0b1, friction, name)
+          .addChild(new AABB(Vector2.zero(), new Vector2(length, width), true, name + "Collider"))
+          .addChild(new TextureRect(Vector2.zero(), new Vector2(length, width), await this.createGroundTexture(new Vector2(length, width)), texture))
+      }
+
     async getGameObjects(): Promise<GameObject[]> {
+        /*
+        One tile = 128
+        Current dimensions: 1920 x 1087 (15 x ~8.5 tiles)
+        (1024)
+
+        Probably a good idea to change resolution to 16:9 sometime
+        */
         const tex = await ImageTexture.createFromImage(await ResourceLoader.getImage(RightNormalV3), RightNormalV3);
         const ground = await TiledTexture.createFromPaths([RightNormalV3], new Vector2(1280, 128), new Vector2(64, 64), -1, true, true);
         

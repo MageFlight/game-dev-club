@@ -4,8 +4,6 @@ import { Vector2 } from "merlin-game-engine/dist/math/vector2";
 import { PhysicsEngine } from "merlin-game-engine/dist/physicsEngine/physics";
 import { TiledTexture } from "merlin-game-engine/dist/resources/textures";
 import RightNormalV3 from "../../assets/player/rightNormalV3.svg";
-import { Level1 } from "../levels/level1";
-import { Level0 } from "../levels/level0";
 import { Level } from "../levels/level";
 import { keyboardHandler, log } from "merlin-game-engine";
 import { TextureRect, ColorRect } from "merlin-game-engine/dist/gameObjects/cameraObjects";
@@ -13,6 +11,8 @@ import { StaticBody, AABB } from "merlin-game-engine/dist/gameObjects/physicsObj
 import { Utils } from "merlin-game-engine/dist/utils";
 import { Player } from "../characters/player";
 import { SquarePlayer } from "../characters/squarePlayer";
+import { Level0 } from "../levels/level0";
+import { Level1 } from "../levels/level1";
 import { Level2 } from "../levels/level2";
 import { Level4 } from "../levels/level4";
 import { Level3 } from "../levels/level3";
@@ -42,7 +42,8 @@ export class TestGame extends GameState {
 
     Utils.listen("nextLevel", () => {
       if (this.currentLevel == this.levelData.length - 1 && !this.loading) {
-        this.changeLevel(0)
+        alert("You finished the game! Reload to play again.");
+        this.paused = true;
       } else if (!this.loading) {
         this.changeLevel(this.currentLevel + 1);
       }      
